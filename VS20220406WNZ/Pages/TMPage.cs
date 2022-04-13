@@ -1,56 +1,18 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using VS20220406WNZ.Utilities;
 
-namespace VS20220406WNZ
+namespace VS20220406WNZ.Pages
 {
-    internal class Program
+    internal class TMPage
     {
-        private static object creatnewbutton;
-
-        static void Main(string[] args)
+        public void CreatTM(IWebDriver driver)
         {
-            // open chrome browser
-            IWebDriver driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-
-            // launch turnup protal website
-            driver.Navigate().GoToUrl("http://horse.industryconnect.io/Account/Login?ReturnUrl=%2f");
-
-            // identify username textbox and enter valid username
-            IWebElement usernameTextbox = driver.FindElement(By.Id("UserName"));
-            usernameTextbox.SendKeys("hari");
-
-            // identify password textbox and enter valid password
-            IWebElement passwordTextbox = driver.FindElement(By.Id("Password"));
-            passwordTextbox.SendKeys("123123");
-
-            // click on the login button
-            IWebElement loginbutton = driver.FindElement(By.XPath("//*[@id='loginForm']/form/div[3]/input[1]"));
-            loginbutton.Click();
-
-            // check if user is logged in successfully
-            IWebElement helloHari = driver.FindElement(By.XPath("//*[@id='logoutForm']/ul/li/a"));
-
-            if (helloHari.Text == "Hello hari!")
-            {
-                Console.WriteLine("Logged in successfully, test passed.");
-            }
-            else
-            {
-                Console.WriteLine("Login failed, test failed.");
-            }
-
-            // creat time and mertial record
-
-            // go to the T&M page
-            IWebElement adminDropdown = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/a"));
-            adminDropdown.Click();
-
-            IWebElement tmOption = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/ul/li[3]/a"));
-            tmOption.Click();
-
             // click on the create new button
             IWebElement creatnewButton = driver.FindElement(By.XPath("//*[@id='container']/p/a"));
             creatnewButton.Click();
@@ -67,7 +29,7 @@ namespace VS20220406WNZ
             IWebElement codeTextbox = driver.FindElement(By.Id("Code"));
             codeTextbox.SendKeys("20200406WNZ");
 
-            ;// Identify the description textbox and input a description
+            // Identify the description textbox and input a description
             IWebElement descriptionTextbox = driver.FindElement(By.Id("Description"));
             descriptionTextbox.SendKeys("20200406WNZ");
 
@@ -81,9 +43,9 @@ namespace VS20220406WNZ
             // Click on the Save button
             IWebElement saveButton = driver.FindElement(By.Id("SaveButton"));
             saveButton.Click();
-            Thread.Sleep(1000);
+            Wait.WaitToBeColickable(driver, "XPath", "//*[@id='tmsGrid']/div[4]/a[4]/span", 2);
 
-            // Click on the go to next page button
+            // Click on the go to last page button
             IWebElement gotolastpageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
             gotolastpageButton.Click();
             Thread.Sleep(1000);
@@ -100,5 +62,20 @@ namespace VS20220406WNZ
                 Console.WriteLine("Test Failed!");
             }
         }
-    } 
+
+        internal void creatTM(IWebDriver driver)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditTM(IWebDriver driver)
+        { 
+         
+        }
+
+        public void DeleteTM(IWebDriver driver)
+        { 
+            
+        }
+    }
 }
