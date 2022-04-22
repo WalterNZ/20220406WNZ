@@ -29,7 +29,7 @@ namespace _2nd20220406WNZ.Utilities
             }
         }
 
-        public static void WaitToBevisible(IWebDriver driver, string Locator, string LocatorValue, int seconds)
+        public static void WaitToBeVisible(IWebDriver driver, string Locator, string LocatorValue, int seconds)
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
 
