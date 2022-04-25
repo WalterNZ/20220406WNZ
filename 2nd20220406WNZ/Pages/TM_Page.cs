@@ -50,36 +50,35 @@ namespace _2nd20220406WNZ.Pages
 
             // Click go to the last page button
             IWebElement gotolastpageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
-            gotolastpageButton.Click();
-
-            // Check if record created is present in the table with expected value
-            IWebElement actualCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
-            IWebElement actualTypecode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
-            IWebElement actualDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
-            IWebElement actualPrice = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
-
-
-
-            // Option 1
-            Assert.That(actualCode.Text == "2nd@$#@21", "Actual code and expected code do not match!");
-            Assert.That(actualTypecode.Text == "M", "Actual typecode and expected code do not match!");
-            Assert.That(actualDescription.Text == "2nd@$#@21", "Actual Description and expected code do not match!");
-            Assert.That(actualPrice.Text == "$2,288,666.00", "Actual Price and expected code do not match!");
-
-             
-
-            // Option 2
-            // if (actualCode.Text == "2nd@$#@21")
-            // {
-            // Console.WriteLine("Material record created successfully, test passed.");
-            // }
-            // else
-            // {
-            // Console.WriteLine("Record Creation failed, test failed.");
-            // }
+            gotolastpageButton.Click();      
         }
 
-        public void EditTM(IWebDriver driver)
+        public string GetCode(IWebDriver driver)
+        {
+            IWebElement actualCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            return actualCode.Text;
+        }
+
+        public string GetTypeCode(IWebDriver driver)
+        {
+            IWebElement actualTypecode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
+            return actualTypecode.Text;
+        }
+
+        public string GetDescription(IWebDriver driver)
+        {
+            IWebElement actualDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
+            return actualDescription.Text;
+        }
+
+        public string GetPrice(IWebDriver driver)
+        {
+            IWebElement actualPrice = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
+            return actualPrice.Text;
+        }
+
+
+        public void EditTM(IWebDriver driver, String description)
         {
             // Wait for the entire TM page displayed
             Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[1]/td[1]", 2);
@@ -109,7 +108,7 @@ namespace _2nd20220406WNZ.Pages
             // Edit Description
             IWebElement descriptionTextbox = driver.FindElement(By.Id("Description"));
             descriptionTextbox.Clear();
-            descriptionTextbox.SendKeys("edited2ndDESCRIPTION");
+            descriptionTextbox.SendKeys(description);
 
             // Edit Price            
             IWebElement priceTag = driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[4]/div/span[1]/span/input[1]"));
@@ -142,10 +141,14 @@ namespace _2nd20220406WNZ.Pages
             Assert.That(actualTypecode.Text == "M", "Actual typecode and expected code do not match!");
             Assert.That(actualDescription.Text == "edited2ndDESCRIPTION", "Actual Description and expected code do not match!");
             Assert.That(actualPrice.Text == "$666.00", "Actual Price and expected code do not match!");
-
-
-
         }
+        
+        public string GetEditedDescription(IWebDriver driver)
+        {
+            IWebElement createdDescription = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
+            return createdDescription.Text;
+        }
+
 
         public void DeleteTM(IWebDriver driver)
         {

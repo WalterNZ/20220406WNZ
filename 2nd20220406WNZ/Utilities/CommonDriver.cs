@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace _2nd20220406WNZ.Utilities
 {
-    internal class CommonDriver
+    public class CommonDriver
     {
         public IWebDriver driver;
 
