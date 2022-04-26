@@ -33,7 +33,7 @@ namespace _2nd20220406WNZ.Tests
 
             // Edit TM
             TM_Page tmpageObj = new TM_Page();
-            tmpageObj.EditTM(driver,"dummy");
+            tmpageObj.EditTM(driver,"dummy", "dummy1", "dummy2");
         }
         [Test, Order (3)]
         public void DeleteTM_Test()

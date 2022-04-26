@@ -10,6 +10,11 @@ namespace _2nd20220406WNZ.StepDefinitions
     [Binding]
     public class TMFeatureStepDefinitions : CommonDriver
     {
+        // Page objective initialization
+        LoginPage loginpageObj = new LoginPage();
+        Homepage homepageObj = new Homepage();
+        TM_Page tmpageObj = new TM_Page();
+
         [Given(@"\[I logged into turn up portal successfully]")]
         public void GivenILoggedIntoTurnUpPortalSuccessfully()
         {
@@ -18,7 +23,7 @@ namespace _2nd20220406WNZ.StepDefinitions
             driver.Manage().Window.Maximize();
 
             // Login page object initialization and definition
-            LoginPage loginpageObj = new LoginPage();
+
             loginpageObj.LoginSteps(driver);
         }
 
@@ -26,7 +31,7 @@ namespace _2nd20220406WNZ.StepDefinitions
         public void WhenINavigateToTimeAndMaterialPage()
         {
             // home page object initialization and definition
-            Homepage homepageObj = new Homepage();
+
             homepageObj.GotoTMPage(driver);
         }
 
@@ -34,15 +39,14 @@ namespace _2nd20220406WNZ.StepDefinitions
         public void WhenICreateANewTimeAndMaterialRecord()
         {
             // TM page object initialization and definition
-            TM_Page tmpageObj = new TM_Page();
+
             tmpageObj.CreatTM(driver);
         }
+
 
         [Then(@"\[the record should be created successfully]")]
         public void ThenTheRecordShouldBeCreatedSuccessfully()
         {
-            TM_Page tmpageObj = new TM_Page();
-
             string newCode = tmpageObj.GetCode(driver);
             string newTypeCode = tmpageObj.GetTypeCode(driver);
             string newDescription = tmpageObj.GetDescription(driver);
@@ -54,23 +58,22 @@ namespace _2nd20220406WNZ.StepDefinitions
             Assert.That(newPrice == "$2288666.00", "Acual Price and expected code do not match!");
         }
 
-        [When(@"\[I update '([^']*)' on an existing time and material record]")]
-        public void WhenIUpdateOnAnExistingTimeAndMaterialRecord(string p0)
+        [When(@"\[I update '([^']*)', '([^']*)' and '([^']*)' on an existing time and material record]")]
+        public void WhenIUpdateWalterOnAnExistingTimeAndMaterialRecord(string p0, string p1, string p2)
         {
-            // TM page object initialization and definition
-            TM_Page tmpageObj = new TM_Page();
-            tmpageObj.EditTM(driver, p0);
+            tmpageObj.EditTM(driver, p0, p1, p2);
         }
 
-        [Then(@"\[the record should have the updated '([^']*)']")]
-        public void ThenTheRecordShouldHaveTheUpdated(string p0)
+        [Then(@"\[the record should have the updated '([^']*)','([^']*)'and'([^']*)'")]
+        public void ThenTheRecordShouldHaveTheUpdatedAnd(string p0, string p1, string p2)
         {
-            TM_Page tmpageObj = new TM_Page();
-
             string editedDescription = tmpageObj.GetEditedDescription(driver);
+            string editedCode = tmpageObj.GetEditedCode(driver);
+            string editPrice = tmpageObj.GetEditedCode(driver);
 
-            Assert.That(editedDescription == p0, "Acual edited Description and expected code do not match!");
+            Assert.That(editedDescription == p0, "Actual description and expected description do not matech!");
+            Assert.That(editedCode == p1, "Actual code and expected code do not matech!");
+            Assert.That(editPrice == p2, "Actual price and expected price do not matech!");
         }
-         
     }
 }
