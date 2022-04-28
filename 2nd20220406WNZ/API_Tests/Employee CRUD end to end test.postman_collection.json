@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "fc9ee957-cdb5-4f19-a105-2003884b3a1f",
+		"name": "Employee CRUD end to end test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new record in database Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Assertion 1 - status code check\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Assertion 2 - response value check\r",
+							"pm.test(\"Check the key-value pair in the response\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    // name check\r",
+							"    pm.expect(jsonData.data.name).to.eql(\"Walter\");\r",
+							"\r",
+							"    // salary check\r",
+							"    pm.expect(jsonData.data.salary).to.eql(\"66666\");\r",
+							"\r",
+							"    // age check\r",
+							"    pm.expect(jsonData.data.age).to.eql(\"28\");\r",
+							"});  \r",
+							"\r",
+							"// Setting an enviroment variable\r",
+							"pm.test(\"Set sword as an enviroment variable\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"swordID\", jsonData.data.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Walter\",\r\n    \"salary\": \"66666\",\r\n    \"age\": \"28\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/api/v1/create",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Sword record Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Assertion 1 - status code check\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Assertion 2 - value check\r",
+							"pm.test(\"Sword record has been updated!\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.data.name).to.eql(\"Walter\");\r",
+							"    pm.expect(jsonData.data.salary).to.eql(\"66666\");\r",
+							"    pm.expect(jsonData.data.age).to.eql(\"26\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Walter\",\r\n    \"salary\": \"66666\",\r\n    \"age\": \"26\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/api/v1/update/{{swordID}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"update",
+						"{{swordID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Sword record Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Assertion 1 - status code check\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Assertion 2 - Jsonvalue check\r",
+							"pm.test(\"Sword record updated has beed deleted!\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.status).to.eql(\"success\");\r",
+							"    pm.expect(jsonData.data.toString()).to.eql(pm.environment.get(\"swordID\").toString());    \r",
+							"    pm.expect(jsonData.message).to.eql(\"Successfully! Record has been deleted\"); \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/api/v1/delete/{{swordID}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"delete",
+						"{{swordID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
